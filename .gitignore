@@ -1,5 +1,6 @@
 # Byte-compiled / optimized / DLL files
 __pycache__/
+currency-convert/__pycache__/
 *.py[cod]
 *$py.class
 
@@ -110,6 +111,9 @@ ENV/
 env.bak/
 venv.bak/
 
+# Pycharm ENvironemnt
+currency-convert/.idea
+
 # Spyder project settings
 .spyderproject
 .spyproject
@@ -127,3 +131,8 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Local files
+currency-convert/Test/
+currency-convert/test.py
+currency-convert/test_rate.py
