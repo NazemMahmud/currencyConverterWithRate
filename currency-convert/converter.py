@@ -12,7 +12,6 @@ class CurrencyConverter(API):
     __date = None
     __source = None
     __multiple = False
-    __error = False
 
     results = []
 
@@ -23,8 +22,9 @@ class CurrencyConverter(API):
 
     """
         Set base /from currency
-        :param base
+        :param base : string type 3 letter code, like, BDT, EUR, USD, etc.
         :return self
+        required
     """
     def base(self, base: str):
         self.__from = base
@@ -32,9 +32,10 @@ class CurrencyConverter(API):
 
     """
         Set target / to currency
-        If multiple, set as a list
-        :param target
+        :param target : either string type 3 letter code, like, BDT, EUR, USD, etc.
+            or, a list for multiple items. like ['BDT', 'EUR', 'USD']
         :return self
+        required
     """
     def target(self, target):
         self.__multiple = False
@@ -47,7 +48,7 @@ class CurrencyConverter(API):
 
     """
         Set amount to convert
-        :param amount
+        :param amount: any number, like int or float
         :return self
     """
     def amount(self, amount: Number):
@@ -59,7 +60,7 @@ class CurrencyConverter(API):
         :param point
         :return self
     """
-    def round(self, point: int):
+    def places(self, point: int):
         self.__round = point
         return self
 
@@ -82,7 +83,7 @@ class CurrencyConverter(API):
         return self
 
     """
-        Set source for bank view or cryptocurrency
+        Set source for bank view or crypto-currency
         :param source
         :return self
     """
@@ -130,8 +131,6 @@ class CurrencyConverter(API):
             # result = response['result'] if response else None
             result = response.json()
             result = result['result']
-            if self.__round:
-                result = round(result, self.__round)
 
             if self.__code:
                 result = self._formatter(result)

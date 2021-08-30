@@ -3,7 +3,7 @@ from abc import ABC, abstractmethod
 
 
 class API(ABC):
-    _base_url = None
+    _base_url = ''
     _payload = {}
 
     """

@@ -5,16 +5,16 @@ import locale
 # https://github.com/amrshawky/currency/blob/master/src/CurrencyConversion.php
 class CurrencyRates(API):
     # all rate related class will extend this class
-    __params = {
-        "base": None,  # base currency
-        "amount": None,  # an array of currency codes to limit output
-        "symbols": None,  # amount to be converted
-        "source": None,  # Switch data source (forex `default`), bank view or crypto currencies.
-        "places": None,  # rounding decimal number.
-    }
+    __params = dict.fromkeys(["base", "amount", "symbols", "source", "places"])
+    # __params = {
+    #     "base": None,  # base currency
+    #     "amount": None,  # an array of currency codes to limit output
+    #     "symbols": None,  # amount to be converted
+    #     "source": None,  # Switch data source (forex `default`), bank view or crypto currencies.
+    #     "places": None,  # rounding decimal number.
+    # }
 
-    __multiple = False
-
+    __code = None
     results = []
 
     # _base_url = "https://api.exchangerate.host/convert"
@@ -24,26 +24,23 @@ class CurrencyRates(API):
 
     """
         Set base /from currency
-        :param base
+        :param base : string type 3 letter code, like, BDT, EUR, USD, etc.
+            default EUR (euro)
         :return self
+        optional
     """
-    def base(self, base):
-        self.__base = base
+    def base(self, base: str):
+        self.__params["base"] = base
         return self
 
     """
-        Set target / to currency
-        If multiple, set as a list
-        :param target
+        Set target currencies
+        :param target: string type
+            If multiple, then comma separated, like EUR,BDT,CZK
         :return self
     """
-    def target(self, target):
-        self.__multiple = False
-        self.__to = target
-
-        if type(target) == list:
-            self.__multiple = True
-
+    def target(self, target: str):
+        self.__params["symbols"] = target
         return self
 
     """
@@ -52,7 +49,7 @@ class CurrencyRates(API):
         :return self
     """
     def amount(self, amount: Number):
-        self.__amount = amount
+        self.__params["amount"] = amount
         return self
 
     """
@@ -60,8 +57,17 @@ class CurrencyRates(API):
         :param point
         :return self
     """
-    def round(self, point: int):
-        self.__round = point
+    def places(self, point: int):
+        self.__params["places"] = point
+        return self
+
+    """
+        Set source for bank view or crypto-currency
+        :param source
+        :return self
+    """
+    def source(self, source):
+        self.__params["source"] = source
         return self
 
     """
@@ -82,63 +88,29 @@ class CurrencyRates(API):
         self.__date = date
         return self
 
-    """
-        Set source for bank view or cryptocurrency
-        :param source
-        :return self
-    """
-    def source(self, source):
-        self.__source = source
-        return self
+    def _set_query_params(self):
+        for key, value in self.__params.items():
+            if value:
+                self._payload[key] = value
 
-    def _set_query_params(self, target=None):
-        self._payload = {
-            'from': self.__from,
-            'to': self.__to if target is None else target,
-            'amount': self.__amount
-        }
-
-        if self.__date:
-            self._payload['date'] = self.__date  # format: YYYY-MM-DD
-
-        if self.__source:
-            self._payload['source'] = self.__source
+        # if self.__date:
+        #     self._payload['date'] = self.__date  # format: YYYY-MM-DD
 
     def get(self):
-        # self.results = []
-        # # for multiple target currency to convert
-        # if self.__multiple:
-        #     for item in self.__to:
-        #         self._set_query_params(item)
-        #         self.results.append(self.process(item))
-        # else:
-        #     self._set_query_params()
-        #     self.results.append(self.process())
-        #
-        # results = self.results
-        # self.results = []
-        # return results
-        return self.process()
-
-    def process(self, target=None):
+        self._set_query_params()
         response = super().get()
-        return self._get_result(response, target)
+        return self._get_result(response)
 
-    def _get_result(self, response, item=None):
+    def _get_result(self, response):
         try:
-            # result = response['result'] if response else None
             result = response.json()
-            result = result['rates']
-            if self.__round:
-                result = round(result, self.__round)
+            rates = result['rates']
 
             if self.__code:
-                result = self._formatter(result)
+                rates = self._formatter(result)
 
             response = {
-                "from": self.__from,
-                "to": self.__to if item is None else item,
-                "converted_amount": result,
+                "rates": rates,
                 'success': True
             }
             return response
@@ -150,7 +122,30 @@ class CurrencyRates(API):
             return response
 
     def _formatter(self, result):
+        rates = result['rates']
         locale.setlocale(locale.LC_ALL, self.__code)
-        currency = locale.currency(result, grouping=True)
-        return currency
+        if 'timeseries' in result.keys() and result['timeseries']:
+            return self.time_series_formatter(rates)
+        elif 'fluctuation' in result.keys() and result['fluctuation']:
+            return self.fluctuation_formatter(rates)
+        else:
+            for key, value in rates.items():
+                rates[key] = locale.currency(value, grouping=True)
+            return rates
 
+    def time_series_formatter(self, result):
+        for item in result:
+            obj = result[item]
+            for code, amount in obj.items():
+                obj[code] = locale.currency(amount, grouping=True)
+            result[item] = obj
+        return result
+
+    def fluctuation_formatter(self, result):
+        for item in result:
+            obj = result[item]
+            for key, value in obj.items():
+                if key == 'start_rate' or key == 'end_rate':
+                    obj[key] = locale.currency(value, grouping=True)
+            result[item] = obj
+        return result
