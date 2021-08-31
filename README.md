@@ -35,5 +35,23 @@ currency = CurrencyConverter()
 
 data = currency.base('USD').target('EUR').get()
 ```
+The output will be like this:
+```
+[
+  {
+    'from': 'USD', 
+    'to': 'EUR', 
+    'converted_amount': 0.846571, 
+    'success': True
+  }
+]
+```
+here, `base()` and `target()` is required method. Other available methods you will see in following example are optional.
+The following examples are given using main **Currency()** class
 
-here, `base()` and `target()` is required method. Other available methods you will see in following example are optional
+#### Available methods:
+
+- **amount()**: By default, base amount is 1.00, you can change it by using **amount()**
+```
+data = currency.convert().base('USD').target('EUR').amount(10).get()
+```
