@@ -60,3 +60,15 @@ data = currency.convert().base('USD').target(['EUR', 'BDT', 'CZK']).get()
 ```
 data = currency.convert().base('USD').target('EUR').amount(10).get()
 ```
+- **places()**: for rounding currency value upto specific decimal point
+```
+data = currency.convert().base('USD').target('EUR').amount(100).places(2).get()
+```
+- **format_language()**: to format the price according to a locale formatter, such as if you want to format currency as United Kingdom's format
+```
+data = currency.convert().base('USD').target('EUR').amount(10).places(2).format_language('en-gb').get()
+```
+- **date()**: to convert currency on a specific date rate. In the method, date paremeter format must be n YYYY-MM-DD
+```
+data = currency.convert().base('USD').target('EUR').amount(10).date('2019-08-01').get()
+```
