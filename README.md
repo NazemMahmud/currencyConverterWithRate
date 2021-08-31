@@ -178,3 +178,84 @@ rate = currency.rates().latest().base('USD').target("EUR").get()
 ```
 rate = currency.rates().latest().base('USD').target("EUR,CZK,USD").amount(100).places(2).source('ecb').format('en-za').get()
 ```
+
+### 2.2 Get Historical Rates
+- an example with all available optional methods, multiple target symbol
+```
+rate = currency.rates().historical("2021-08-30").base('USD').target("USD,EUR,CZK").amount(100).places(2).source('ecb').format('en').get()
+```
+as explained above, a date must be passed as a parameter inside `historical()` in YYYY-MM-DD format. This date indicates that, the rates were for that specific day.
+
+Output will look like following:
+
+    {
+        "rates": {
+            "CZK": "$2,166.43",
+            "EUR": "$84.74",
+            "USD": "$100.00"
+        },
+        "success": true
+    }
+
+
+### 2.3 Get Fluctuation Rates
+- an example with all available optional methods, multiple target symbol
+
+    2 required parameters for `fluctuations()`:
+    start_date: in YYYY-MM-DD format
+    end_date: in YYYY-MM-DD format
+
+```
+rate = currency.rates().fluctuations("2021-01-01", "2021-01-03").base('USD').target("EUR,CZK").amount(100).places(2).source('ecb').format('en').get()
+```
+Output will look like following:
+
+    {
+        "rates": {
+            "CZK": {
+                "change": 0,
+                "change_pct": 0,
+                "end_rate": "$2,138.54",
+                "start_rate": "$2,138.54"
+            },
+            "EUR": {
+                "change": 0,
+                "change_pct": 0,
+                "end_rate": "$81.49",
+                "start_rate": "$81.49"
+            }
+        },
+        "success": true
+    }
+
+### 2.4 Get Timeseries Rates
+- an example with all available optional methods, multiple target symbol
+
+    2 required parameters:
+    start_date: in YYYY-MM-DD format
+    end_date: in YYYY-MM-DD format
+```
+rate = currency.rates().timeseries("2021-01-01", "2021-01-03").base('USD').target("EUR,CZK").amount(100).places(3).source('ecb').format('en').get()
+```
+Output will look like following:
+
+    {
+        "rates": {
+            "2021-01-01": {
+                "CZK": "$2,138.54",
+                "EUR": "$81.49",
+                "USD": "$100.00"
+            },
+            "2021-01-02": {
+                "CZK": "$2,138.54",
+                "EUR": "$81.49",
+                "USD": "$100.00"
+            },
+            "2021-01-03": {
+                "CZK": "$2,138.54",
+                "EUR": "$81.49",
+                "USD": "$100.00"
+            }
+        },
+        "success": true
+    }
