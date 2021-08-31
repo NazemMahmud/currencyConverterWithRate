@@ -5,6 +5,7 @@ This is a simple python package for currency conversion between any two or to mu
 ## Features
 
 - Conversion rate for one or multiple currency
+
 For all or some specific currency:
 - Get latest rates
 - Get historical rates. Historical means on a speficifc date
@@ -47,7 +48,7 @@ The output will be like this:
 ```
 here, `base()` and `target()` is required method. Other available methods you will see in following examples are optional. 
 
-You can find all the currency symbols to pass in base() and target() method for conversion in the above source link, under the file named *currency-symbols.txt*
+You can find all the currency symbols to pass in base() and target() method for conversion in the above source link, under the file named [*currency-symbols.txt*](https://gist.github.com/NazemMahmud/1228e03fcc796cfbdba60069a1e6381e#file-currency-symbols-txt)
 
 The following examples are given using main **Currency()** class
 
@@ -65,17 +66,18 @@ data = currency.convert().base('USD').target('EUR').amount(10).get()
 ```
 data = currency.convert().base('USD').target('EUR').amount(100).places(2).get()
 ```
-- **`format_language()`**: to format the price according to a locale formatter, such as if you want to format currency as United Kingdom's format
+- **`format_language()`**: to format the price according to a locale formatter, such as if you want to format currency as United Kingdom's format.
 ```
 data = currency.convert().base('USD').target('EUR').amount(10).places(2).format_language('en-gb').get()
 ```
+You can find all language code for locale format, in the above source link, under the file named [language-codes-list.txt](https://gist.github.com/NazemMahmud/1228e03fcc796cfbdba60069a1e6381e#file-language-codes-list-txt)
 - **`date()`**: to convert currency on a rate of a specific date. In this method, date paremeter must be in YYYY-MM-DD format 
 ```
 data = currency.convert().base('USD').target('EUR').amount(10).date('2019-08-01').get()
 ```
 
 - **`source()`**: There are 2 different types of source.
-1. **Bank source**: Currency conversion according to a bank reference. In this case, you have to pass the bank's code in the **source()**. You can find all bank source code, in the above source link, under the file named *bank_sources.txt*
+1. **Bank source**: Currency conversion according to a bank reference. In this case, you have to pass the bank's code in the **source()**. You can find all bank source code, in the above source link, under the file named [*bank_sources.txt*](https://gist.github.com/NazemMahmud/1228e03fcc796cfbdba60069a1e6381e#file-bank_sources-txt)
 ```
 data = currency.convert().base('USD').target('EUR').amount(10).source('ecb').get()
 ```
@@ -86,7 +88,7 @@ And in both `base()` and `target()` method, you have to pass any crypto-currency
 ```
 data = currency.convert().base('BTC').target('PAC').amount(10).source('crypto').get()
 ```
-The above example convert from bitcoin (BTC) to PAC Protocol (PAC). You can find all crypto-currency symbols, in the above source link, under the file named *crypto-currencies.txt*
+The above example convert from bitcoin (BTC) to PAC Protocol (PAC). You can find all crypto-currency symbols, in the above source link, under the file named [*crypto-currencies.txt*](https://gist.github.com/NazemMahmud/1228e03fcc796cfbdba60069a1e6381e#file-crypto-currencies-txt)
 
 ##### Note: You don't have to follow any chaining sequence to use or call the optional methods. Just make sure, you call any of them before `get()`. `get()` must be last method in the chain.
 
@@ -118,7 +120,7 @@ currency = Rates()
 data = currency.latest().get()
 ```
 
-Based on which type of rates, you want to get, the methods will be different. But all these rate types, have some common available methods. These are following:
+Based on which type of rates, you want to get, the methods will be different. But all these rate types, have some common available optional methods. These are following:
 
     1. base(): for changing the base currency (by default EUR, i.e. euro): Enter 3-letter currency code for preferred base currency
     2. target(): for target currency: Enter 3-letter currency code, to get multiple target currency, send a comma separated string with 3 digit symbol, without any whitespace, 
@@ -202,7 +204,9 @@ Output will look like following:
 - an example with all available optional methods, multiple target symbol
 
     2 required parameters for `fluctuations()`:
+    
     start_date: in YYYY-MM-DD format
+    
     end_date: in YYYY-MM-DD format
 
 ```
@@ -232,7 +236,9 @@ Output will look like following:
 - an example with all available optional methods, multiple target symbol
 
     2 required parameters:
+    
     start_date: in YYYY-MM-DD format
+    
     end_date: in YYYY-MM-DD format
 ```
 rate = currency.rates().timeseries("2021-01-01", "2021-01-03").base('USD').target("EUR,CZK").amount(100).places(3).source('ecb').format('en').get()
@@ -259,3 +265,11 @@ Output will look like following:
         },
         "success": true
     }
+
+If you send wrong parameter/s, in the available methods, or if there is any error in API, you will get an error response like following:
+
+    {
+        "success": False,
+        "message": "Something went wrong in the server, please wait"
+    }
+
