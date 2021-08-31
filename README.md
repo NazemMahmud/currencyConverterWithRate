@@ -15,7 +15,7 @@ For all or some specific currency:
 
 ## Sources
 
-For all currency symbols, language code for locale formatter, bank source codes, crypto-currency codes, check this  [sources](https://gist.github.com/NazemMahmud/1228e03fcc796cfbdba60069a1e6381e)
+For all currency symbols, language code for locale formatter, bank source codes, crypto-currency codes, check this  [Symbol & Code Sources](https://gist.github.com/NazemMahmud/1228e03fcc796cfbdba60069a1e6381e)
 
 # Usage Example
 
@@ -47,8 +47,13 @@ The output will be like this:
 ]
 ```
 here, `base()` and `target()` is required method. Other available methods you will see in following example are optional.
+
 The following examples are given using main **Currency()** class
 
+- **Multiple targets:** In above example, target currency is only one. If you want to convert to multiple targets, use like following: (send multiple currency code as a list)
+```
+data = currency.convert().base('USD').target(['EUR', 'BDT', 'CZK']).get()
+```
 #### Available methods:
 
 - **amount()**: By default, base amount is 1.00, you can change it by using **amount()**
