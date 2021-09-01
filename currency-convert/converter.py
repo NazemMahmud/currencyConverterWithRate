@@ -2,7 +2,7 @@ from api import *
 from numbers import Number
 import locale
 
-# https://github.com/amrshawky/currency/blob/master/src/CurrencyConversion.php
+
 class CurrencyConverter(API):
     __from = None  # base currency (required)
     __to = None  # target currency (required)
@@ -128,7 +128,6 @@ class CurrencyConverter(API):
 
     def _get_result(self, response, item=None):
         try:
-            # result = response['result'] if response else None
             result = response.json()
             result = result['result']
 
@@ -153,4 +152,3 @@ class CurrencyConverter(API):
         locale.setlocale(locale.LC_ALL, self.__code)
         currency = locale.currency(result, grouping=True)
         return currency
-

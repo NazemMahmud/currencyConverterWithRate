@@ -22,7 +22,7 @@ setup(
         "Operating System :: OS Independent",
         'Topic :: Software Development :: Internationalization',
     ],                                      # Information to filter the project on PyPi website
-    python_requires='>=3.6',                # Minimum version requirement of the package
+    python_requires='>=3.5',                # Minimum version requirement of the package
     install_requires=[                      # Install other dependencies if any
         'requests',
         'simplejson',

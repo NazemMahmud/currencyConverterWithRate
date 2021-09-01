@@ -2,22 +2,20 @@ from api import *
 from numbers import Number
 import locale
 
-# https://github.com/amrshawky/currency/blob/master/src/CurrencyConversion.php
+
 class CurrencyRates(API):
     # all rate related class will extend this class
     __params = dict.fromkeys(["base", "amount", "symbols", "source", "places"])
-    # __params = {
-    #     "base": None,  # base currency
-    #     "amount": None,  # an array of currency codes to limit output
-    #     "symbols": None,  # amount to be converted
-    #     "source": None,  # Switch data source (forex `default`), bank view or crypto currencies.
-    #     "places": None,  # rounding decimal number.
-    # }
+    """
+        "base": None,  # base currency
+        "amount": None,  # an array of currency codes to limit output
+        "symbols": None,  # amount to be converted
+        "source": None,  # Switch data source (forex `default`), bank view or crypto currencies.
+        "places": None,  # rounding decimal number.
+    """
 
     __code = None
     results = []
-
-    # _base_url = "https://api.exchangerate.host/convert"
 
     def __init__(self):
         return
@@ -79,22 +77,10 @@ class CurrencyRates(API):
         self.__code = code
         return self
 
-    """
-        Set date for historical exchange currency
-        :param date
-        :return self
-    """
-    def date(self, date):
-        self.__date = date
-        return self
-
     def _set_query_params(self):
         for key, value in self.__params.items():
             if value:
                 self._payload[key] = value
-
-        # if self.__date:
-        #     self._payload['date'] = self.__date  # format: YYYY-MM-DD
 
     def get(self):
         self._set_query_params()

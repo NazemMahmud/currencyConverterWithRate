@@ -30,5 +30,3 @@ class API(ABC):
     def get(self):
         response = requests.get(self._base_url, params=self._payload)
         return response
-
-
