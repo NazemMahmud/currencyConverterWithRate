@@ -7,7 +7,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name="currency-converter-with-rate",    # This is the name of the package
-    version="1.0.0",                        # The initial release version
+    version="1.0.1",                        # The initial release version
     author="Nazem Mahmud Piash",            # Full name of the author
     author_email='nazem.piash10@gmail.com',
     url='https://github.com/NazemMahmud/currencyConverterWithRate',
