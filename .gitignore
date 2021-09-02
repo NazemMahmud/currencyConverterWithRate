@@ -1,6 +1,7 @@
 # Byte-compiled / optimized / DLL files
 __pycache__/
-currency-convert/__pycache__/
+currency-converter-with-rate/__pycache__/
+currency-converter-with-rate/.idea
 *.py[cod]
 *$py.class
 
