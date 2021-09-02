@@ -1,7 +1,6 @@
 # Byte-compiled / optimized / DLL files
 __pycache__/
-currency-converter-with-rate/__pycache__/
-currency-converter-with-rate/.idea
+currency_converter_with_rate/__pycache__/
 *.py[cod]
 *$py.class
 
@@ -113,7 +112,8 @@ env.bak/
 venv.bak/
 
 # Pycharm ENvironemnt
-currency-convert/.idea
+.idea
+currency_converter_with_rate/.idea
 
 # Spyder project settings
 .spyderproject
@@ -134,6 +134,3 @@ dmypy.json
 .pyre/
 
 # Local files
-currency-convert/Test/
-currency-convert/test.py
-currency-convert/test_rate.py

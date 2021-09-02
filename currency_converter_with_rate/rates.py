@@ -1,4 +1,4 @@
-from currency_rates import *
+from .currency_rates import *
 
 
 class Rates(CurrencyRates):

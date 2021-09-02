@@ -1,5 +1,5 @@
-from converter import *
-from rates import *
+from .converter import *
+from .rates import *
 
 class Currency:
     def __init__(self):

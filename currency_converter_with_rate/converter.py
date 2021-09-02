@@ -1,4 +1,4 @@
-from api import *
+from .api import *
 from numbers import Number
 import locale
 
